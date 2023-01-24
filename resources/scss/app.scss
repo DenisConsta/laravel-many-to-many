@@ -1,0 +1,90 @@
+@import '~bootstrap/scss/bootstrap';
+
+/* for title */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+
+body {
+    font-family: Arial;
+
+}
+
+body header nav {
+    background-color: #2F0E86;
+}
+
+.debug {
+    border: 1px solid firebrick;
+}
+
+aside {
+
+    &.sidebar {
+        font-size: 0.75em;
+        background-color: #2F0E86;
+    }
+
+    .nav {
+        text-align: left;
+        font-weight: bold;
+    }
+
+    .nav ul {
+        list-style: none;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        li {
+            position: relative;
+            margin: 3.2em 0;
+
+            a {
+                line-height: 5em;
+                text-transform: uppercase;
+                text-decoration: none;
+                letter-spacing: 0.4em;
+                color: rgba(#FFF, 0.35);
+                display: block;
+                transition: all ease-out 300ms;
+            }
+
+            &.active a {
+                color: white;
+            }
+
+            &:not(.active)::after {
+                opacity: 0.2;
+            }
+
+            &:not(.active):hover a {
+                color: rgba(#FFF, 0.75);
+            }
+
+            &::after {
+                content: '';
+                position: absolute;
+                width: 100%;
+                height: 0.2em;
+                background: black;
+                left: 0;
+                bottom: 0;
+                background-image: linear-gradient(to right, #5e42a6, #b74e91)
+            }
+        }
+    }
+
+
+
+}
+
+.ck-editor__editable {
+    min-height: 200px;
+}
+
+.badge:empty{
+    display: none;
+}
