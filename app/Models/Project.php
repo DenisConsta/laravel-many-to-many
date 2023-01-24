@@ -13,16 +13,19 @@ class Project extends Model
 {
     use HasFactory, Sortable;
 
-    protected $fillable = ['name', 'slug', 'client_name', 'summary', 'cover_image', 'type_id', 'technology_id'];
+    protected $fillable = ['name', 'slug', 'client_name', 'summary', 'cover_image', 'type_id', 'technology_id', 'user_id'];
 
     public $sortable = ['id', 'name', 'client_name'];
-    public function type()
-    {
+    public function type(){
         return $this->belongsTo(Type::class);
     }
 
     public function technologies(){
         return $this->belongsToMany(Technology::class);
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class);
     }
 
     public static function generateSlug($string)

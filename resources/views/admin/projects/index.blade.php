@@ -5,6 +5,10 @@
         <div class="alert alert-success" role="alert">
             {!! session('success') !!}
         </div>
+    @elseif (session('denied'))
+        <div class="alert alert-danger" role="alert">
+            {!! session('denied') !!}
+        </div>
     @endif
 
     <table class="table table-striped table-dark">
@@ -24,15 +28,15 @@
                     <td> {{ $project->name }}
                         @if ($project->type?->name)
                             <a href=" {{ route('admin.projects.allOf', $project->type) }} "
-                                class="badge text-bg-info text-decoration-none" name="tag" value={{$project->type_id}} >{{ $project->type?->name }}
+                                class="badge text-bg-info text-decoration-none" name="tag"
+                                value={{ $project->type_id }}>{{ $project->type?->name }}
                             </a>
                         @endif
                     </td>
                     <td>
                         @forelse ($project->technologies as $tech)
-                            <span class="badge text-bg-warning "> {{$tech->name}} </span>
+                            <span class="badge text-bg-warning "> {{ $tech->name }} </span>
                         @empty
-
                         @endforelse
                     </td>
                     <td> {{ $project->client_name }} </td>

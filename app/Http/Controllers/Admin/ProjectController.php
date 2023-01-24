@@ -7,6 +7,7 @@ use App\Http\Requests\ProjectRequest;
 use App\Models\Project;
 use App\Models\Technology;
 use App\Models\Type;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
@@ -20,13 +21,13 @@ class ProjectController extends Controller
 
     public function index()
     {
-        $projects = Project::sortable()->Filter(request(['search']))->paginate(10);
+        $projects = Project::where('user_id', Auth::id())->sortable()->Filter(request(['search']))->paginate(10);
         return view('admin.projects.index', compact('projects'));
     }
 
     public function allOf($type)
     {
-        $projects = Project::sortable()->where('type_id', $type)->Paginate(10);
+        $projects = Project::where('user_id', Auth::id())->sortable()->where('type_id', $type)->Paginate(10);
         return view('admin.projects.index', compact('projects'));
     }
     /**
@@ -57,6 +58,7 @@ class ProjectController extends Controller
         }
 
         $form_data['slug'] = Project::generateSlug($form_data['name']);
+        $form_data['user_id'] = Auth::id();
         $project = Project::create($form_data);
 
         if (array_key_exists('technologies', $form_data))
@@ -73,7 +75,11 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        return view('admin.projects.show', compact('project'));
+        if($project->user_id === Auth::id()){
+            return view('admin.projects.show', compact('project'));
+        }
+
+        return redirect()->route('admin.projects.index')->with('denied', 'Accesso negato');
     }
 
     /**
@@ -84,6 +90,9 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
+        if($project->user_id !== Auth::id()){
+            return redirect()->route('admin.projects.index')->with('denied', 'Accesso negato');
+        }
         $types = Type::all();
         $technologies = Technology::all();
 
