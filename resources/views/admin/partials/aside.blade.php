@@ -26,6 +26,11 @@
             @endif
             "><a href=" {{route('admin.types.index')}} "><i class="fa-solid fa-diagram-next"></i></i> Types</a></li>
 
+            <li class="
+            @if (Route::currentRouteName() == 'admin.technologies.index')
+                active
+            @endif
+            "><a href=" {{route('admin.technologies.index')}} "><i class="fa-solid fa-diagram-next"></i></i> Technologies</a></li>
 
 
         </ul>
