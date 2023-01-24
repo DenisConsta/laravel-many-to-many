@@ -57,6 +57,7 @@ class Project extends Model
         }
 
         if ($filters['technology'] ?? false) {
+
             /*
             SELECT *
             FROM `projects`
