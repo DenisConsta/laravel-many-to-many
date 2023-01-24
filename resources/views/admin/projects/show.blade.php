@@ -5,10 +5,17 @@
         <div class="row">
 
             <div class="col-8">
-                <h1 class="display-3"> {{ $project->name }}f </h1>
+                <h1 class="display-3"> {{ $project->name }} </h1>
+
                 @if ($project->type?->name)
                     <span class="mb-3 badge text-bg-info">{{ $project->type?->name }}</span>
                 @endif
+
+                @forelse ($project->technologies as $tech)
+                    <span class="mb-3 badge text-bg-warning">{{ $tech->name }}</span>
+                @empty
+                @endforelse
+
                 <h4> {{ $project->client_name }} </h4>
                 <p> {!! $project->summary !!} </p>
             </div>
