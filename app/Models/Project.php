@@ -47,6 +47,10 @@ class Project extends Model
         if ($filters['search'] ?? false) {
             return $query->where('name', 'like', '%' . request('search') . '%')->orWhere('summary', 'like', '%' . request('search') . '%')->orWhere('client_name', 'like', '%' . request('search') . '%');
         }
+
+        if ($filters['type'] ?? false) {
+            return $query->where('type_id', request('type'));
+        }
     }
 
 

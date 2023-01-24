@@ -17,17 +17,9 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
-
     public function index()
     {
-        $projects = Project::where('user_id', Auth::id())->sortable()->Filter(request(['search']))->paginate(10);
-        return view('admin.projects.index', compact('projects'));
-    }
-
-    public function allOf($type)
-    {
-        $projects = Project::where('user_id', Auth::id())->sortable()->where('type_id', $type)->Paginate(10);
+        $projects = Project::where('user_id', Auth::id())->sortable()->Filter(request(['search', 'type']))->paginate(10);
         return view('admin.projects.index', compact('projects'));
     }
     /**
