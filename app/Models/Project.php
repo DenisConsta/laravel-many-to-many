@@ -13,7 +13,7 @@ class Project extends Model
 {
     use HasFactory, Sortable;
 
-    protected $fillable = ['name', 'slug', 'client_name', 'summary', 'cover_image', 'type_id'];
+    protected $fillable = ['name', 'slug', 'client_name', 'summary', 'cover_image', 'type_id', 'technology_id'];
 
     public $sortable = ['id', 'name', 'client_name'];
     public function type()

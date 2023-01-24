@@ -12,6 +12,7 @@
             <tr>
                 <th scope="col"> @sortablelink('id') </th>
                 <th scope="col"> @sortablelink('name') </th>
+                <th scope="col"> Technologies </th>
                 <th scope="col"> @sortablelink('client_name')</th>
                 <th scope="col">Actions</th>
             </tr>
@@ -26,6 +27,13 @@
                                 class="badge text-bg-info text-decoration-none" name="tag" value={{$project->type_id}} >{{ $project->type?->name }}
                             </a>
                         @endif
+                    </td>
+                    <td>
+                        @forelse ($project->technologies as $tech)
+                            <span class="badge text-bg-warning "> {{$tech->name}} </span>
+                        @empty
+
+                        @endforelse
                     </td>
                     <td> {{ $project->client_name }} </td>
                     <td>

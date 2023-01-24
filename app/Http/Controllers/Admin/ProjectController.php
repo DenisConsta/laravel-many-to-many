@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProjectRequest;
 use App\Models\Project;
+use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Support\Facades\Storage;
 
@@ -20,26 +21,13 @@ class ProjectController extends Controller
     public function index()
     {
         $projects =  Project::sortable()->Filter(request(['search']))->paginate(10);
-        $direction = 'desc';
-
-        return view('admin.projects.index', compact('projects', 'direction'));
+        return view('admin.projects.index', compact('projects'));
     }
 
     public function allOf($type){
         $projects = Project::sortable()->where('type_id', $type)->Paginate(10);
-        $direction = 'desc';
-        return view('admin.projects.index', compact('projects', 'direction'));
+        return view('admin.projects.index', compact('projects'));
     }
-
-    public function search()
-    {
-        if (request('search')) {
-            $search = request('search');
-            return Project::where('name', 'like', "%$search%")->paginate(10);
-        }
-        return null;
-    }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -48,7 +36,9 @@ class ProjectController extends Controller
     public function create()
     {
         $types = Type::all();
-        return view('admin.projects.create', compact('types'));
+        $technologies = Technology::all();
+
+        return view('admin.projects.create', compact('types', 'technologies'));
     }
 
     /**
@@ -91,7 +81,9 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $types = Type::all();
-        return view('admin.projects.edit', compact('project', 'types'));
+        $technologies = Technology::all();
+
+        return view('admin.projects.edit', compact('project', 'types', 'technologies'));
     }
 
     /**

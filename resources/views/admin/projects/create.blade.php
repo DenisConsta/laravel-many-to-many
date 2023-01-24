@@ -58,14 +58,22 @@
                     <select name="type_id" class="form-select bg-dark text-light" aria-label="Default select example">
                         <option value="">Selezionare una tipologia</option>
                         @foreach ($types as $type)
-                            <option
-                            @if ($type->id == old('type_id'))
-                                selected
-                            @endif
-                            value="{{$type->id}}">{{$type->name}}</option>
+                            <option @if ($type->id == old('type_id')) selected @endif value="{{ $type->id }}">
+                                {{ $type->name }}</option>
                         @endforeach
                     </select>
                 </div>
+
+                {{-- ? technologies --}}
+                <div class="mb-3">
+                    <label for="technologies" class="d-block mb-3">Technologies</label>
+                    @foreach ($technologies as $tech)
+                        <input id="technologies{{ $loop->iteration }}" type="checkbox" name="technologies[]" value=" {{ $tech->id }} "
+                            @if (in_array($tech->id, old('technologies', []))) checked @endif>
+                        <label class="me-3" for="technologies{{ $loop->iteration }}"> {{ $tech->name }} </label>
+                    @endforeach
+                </div>
+
 
                 {{-- ? summary --}}
                 <div class="mb-3 text-dark">

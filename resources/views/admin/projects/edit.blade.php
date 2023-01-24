@@ -37,11 +37,8 @@
                         @enderror
                     </div>
                     <div>
-                        {{-- <img width="300" id="preview_image" src=" {{ asset('storage/' . $project['cover_image']) }} "
-                            alt=""> --}}
-
                         <img width="300" class="my-3" id="preview_image"
-                            src="{{ str_starts_with($project->cover_image, 'https:')
+                            src="{{ str_starts_with($project->cover_image, 'http:')
                                 ? $project->cover_image
                                 : asset('storage/' . $project->cover_image) }}"
                             alt="{{ $project->name }}">
@@ -76,6 +73,21 @@
                     </select>
                 </div>
 
+                {{-- ? technologies --}}
+                <div class="mb-3">
+                    <label for="technologies" class="d-block mb-3">Technologies</label>
+                    @foreach ($technologies as $tech)
+                        <input id="technologies{{ $loop->iteration }}" type="checkbox" name="technologies[]"
+                            value=" {{ $tech->id }} "
+                            @if (!$errors->all() && $project->technologies->contains($tech))
+                                checked
+                            @elseif ($errors->all() && in_array($tech->id, old('technologies', [])))
+                                checked
+                            @endif>
+                        <label class="me-3" for="technologies{{ $loop->iteration }}"> {{ $tech->name }} </label>
+                    @endforeach
+                </div>
+
                 {{-- ? summary --}}
                 <div class="mb-3 text-dark">
                     <label for="summary" class="form-label">summary</label>
@@ -83,12 +95,6 @@
                     <textarea name="summary" id="text" rows="10"
                         class=" @error('summary')
                     is-invalid  @enderror">{{ old('summary', $project->summary) }}</textarea>
-
-                    {{-- <input type="text" name="summary"
-                        class="form-control bg-dark text-light @error('summary')
-                    is-invalid  @enderror"
-                        id="summary" placeholder="inserire il summary " value=" {{ old('summary', $project->summary) }} "> --}}
-
                     <div class="invalid-feedback">
                         @error('summary')
                             {{ $message }}
@@ -97,9 +103,7 @@
                 </div>
 
                 <button class="btn btn-primary" type="submit">Update</button>
-
             </form>
-
         </div>
     </div>
 
