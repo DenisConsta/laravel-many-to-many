@@ -19,7 +19,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::where('user_id', Auth::id())->sortable()->Filter(request(['search', 'type']))->paginate(10);
+        $projects = Project::where('user_id', Auth::id())->sortable()->Filter(request(['search', 'type', 'technology']))->paginate(10);
         return view('admin.projects.index', compact('projects'));
     }
     /**

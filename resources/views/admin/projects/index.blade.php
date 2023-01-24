@@ -27,11 +27,11 @@
                     <td> {{ $project->id }} </td>
                     <td> {{ $project->name }}
                         @if ($project->type?->name)
+                            {{-- ! --}}
                             <form action="{{ route('admin.projects.index') }}" method="GET">
                                 @csrf
-                                {{-- ! --}}
-                                <button type="submit" class="border-0 badge text-bg-info text-decoration-none" value="{{ $project->type_id }}"
-                                    name="type">
+                                <button type="submit" class=" border-0 badge text-bg-info text-decoration-none"
+                                    value="{{ $project->type_id }}" name="type">
                                     {{ $project->type?->name }}
                                 </button>
                             </form>
@@ -44,7 +44,17 @@
                     </td>
                     <td>
                         @forelse ($project->technologies as $tech)
-                            <span class="badge text-bg-warning "> {{ $tech->name }} </span>
+                            {{-- <span class="badge text-bg-warning "> {{ $tech->name }} </span> --}}
+
+                            {{-- ! --}}
+                            <form action="{{ route('admin.projects.index') }}" method="GET">
+                                @csrf
+                                <button type="submit" class=" border-0 badge text-bg-info text-decoration-none"
+                                    value="{{ $tech->id }}" name="technology">
+                                    {{ $tech->name }}
+                                </button>
+                            </form>
+
                         @empty
                         @endforelse
                     </td>

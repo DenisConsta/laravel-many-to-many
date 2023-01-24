@@ -8,6 +8,7 @@ use Kyslik\ColumnSortable\Sortable;
 use PhpParser\Node\Expr\Cast\Array_;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\DB;
 
 class Project extends Model
 {
@@ -16,15 +17,18 @@ class Project extends Model
     protected $fillable = ['name', 'slug', 'client_name', 'summary', 'cover_image', 'type_id', 'technology_id', 'user_id'];
 
     public $sortable = ['id', 'name', 'client_name'];
-    public function type(){
+    public function type()
+    {
         return $this->belongsTo(Type::class);
     }
 
-    public function technologies(){
+    public function technologies()
+    {
         return $this->belongsToMany(Technology::class);
     }
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
@@ -50,6 +54,21 @@ class Project extends Model
 
         if ($filters['type'] ?? false) {
             return $query->where('type_id', request('type'));
+        }
+
+        if ($filters['technology'] ?? false) {
+            /*
+            SELECT *
+            FROM `projects`
+            LEFT JOIN `project_technology`
+            ON `projects`.`id` = `project_technology`.`project_id`
+            WHERE `project_technology`.`technology_id` = x;
+            */
+
+            return $query->where("project_technology.technology_id", "=", request('technology'))
+                ->leftJoin("project_technology", function ($join) {
+                    $join->on("projects.id", "=", "project_technology.project_id");
+                });
         }
     }
 
